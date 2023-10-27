@@ -25,7 +25,7 @@ const ChannelsPage = (props) => {
   }, [channels, channelId])
 
   // Render the channels and messages
-  return (
+  return (<>
     <Layout channels={channels} activeChannelId={channelId} invites={invites}>
       <div className="relative h-screen">
         <div className="Messages h-full pb-16">
@@ -38,10 +38,9 @@ const ChannelsPage = (props) => {
         <div className=' absolute bottom-0 left-0 w-full'>
           <MessageInput onSubmit={async (text) => addMessage(text, channelId, user.id)} />
         </div>
-        
       </div>
     </Layout>
-  )
+  </>)
 }
 
 export default ChannelsPage

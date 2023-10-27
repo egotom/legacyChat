@@ -13,9 +13,9 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
   const router = useRouter()
 
   useEffect(() => {
-    function saveSession(session) {
-      setSession(session)
-      const currentUser = session?.user
+    function saveSession(ss) {
+      setSession(ss)
+      const currentUser = ss?.user
       setUser(currentUser ?? null)
       setUserLoaded(!!currentUser)
       if (currentUser) {
@@ -25,8 +25,10 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
     }
     
     supabase.auth.getSession().then(({data: { session }})=>saveSession(session))    
-    const { subscription: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGN_OUT')
+    const { subscription: authListener } = supabase.auth.onAuthStateChange(async (event, ss) => {
+      if (event === 'SIGNED_IN')
+        saveSession(ss)
+      if(event === 'SIGNED_OUT')
         setSession(null)
     })
     return () => authListener.unsubscribe()
@@ -44,7 +46,7 @@ export default function SupabaseSlackClone({ Component, pageProps }) {
 
   return (<>
     <Head>
-      <title>聊天</title>
+      <title>Legacy Chat</title>
       <link rel="icon" href="/favicon.ico" sizes="any" />
     </Head>
     <UserContext.Provider value={{userLoaded, user, userRoles, signIn, signOut}}>

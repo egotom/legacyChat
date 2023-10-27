@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useContext, useEffect, useState,useRef } from 'react'
 import UserContext from '~/lib/UserContext'
@@ -35,7 +36,11 @@ export default function Layout(props) {
       addChannel(slugify(slug), user.id);
   }
 
-  return (
+  return (<>
+    <Head>
+      <title>Chat ...</title>
+    </Head>
+  
     <main className="main flex h-screen w-screen overflow-hidden" ref={refWdith}>      
       <nav className=" flex justify-between items-center bg-gray-900 text-gray-100" >
       {!coll &&
@@ -104,7 +109,7 @@ export default function Layout(props) {
       {show && <Modal children ={<PromptChannel enable={confirm} />} />}
       {ss && <Modal children ={<PromptFriend enable={()=>setSs(!ss)} user={user}/>} />}
     </main>
-  )
+  </>)
 }
 
 const PromptChannel=({enable})=>{
